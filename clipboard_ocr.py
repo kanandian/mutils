@@ -2,19 +2,25 @@ import pytesseract as pt
 # import requests
 from PIL import Image
 import pyperclip
+import keyboard
 
 # 从PyObjC库的AppKit模块引用NSPasteboard主类，和PNG、TIFF的格式类
 from AppKit import NSPasteboard, NSPasteboardTypePNG, NSPasteboardTypeTIFF, NSPasteboardTypeString
 
+def write_to_file(text, filepath):
+    with open(filepath, 'w') as file:
+        file.write(text)
 
 def excute_ocr(filepath):
     # url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
     # img = Image.open(requests.get(url, stream=True).raw)
+    write_to_file('123', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
     img = Image.open(filepath)
+    write_to_file('456', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
     text = pt.image_to_string(img)
+    write_to_file('789', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
     # text = pt.image_to_string(img, lang='chi_sim')    #中文
     pyperclip.copy(text)
-    return text
 
 
 def get_paste_img_file(filepath):
@@ -51,6 +57,15 @@ def clipboard_image_text_clipboard():
     get_paste_img_file(filepath)
     excute_ocr(filepath)
 
+def test():
+    print('test')
 
-if __name__ == '__main__':
-    clipboard_image_text_clipboard()
+
+def init_hot_key():
+    keyboard.add_hotkey('f1', clipboard_image_text_clipboard)
+    # keyboard.add_hotkey('ctrl+shift+a', print, args=('triggered', 'hotkey')) # 已发现无法监听ctrl、command等控制按键
+    keyboard.wait()
+
+
+# if __name__ == '__main__':
+init_hot_key()
