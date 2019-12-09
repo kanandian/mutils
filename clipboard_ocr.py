@@ -1,16 +1,56 @@
 import pytesseract as pt
 # import requests
 from PIL import Image
+import pyperclip
 
-#img = Image.open("textinimage.png")
-# print("英文:")
-url = "https://china-testing.github.io/images/python_lib_ocr_en.png"
-img = Image.open('images/ocr_test.png')
-text = pt.image_to_string(img)
-print(text)
-# #img = Image.open("textinimage.png")
-# print("中文:")
-# url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
-# img = Image.open(requests.get(url, stream=True).raw)
-# text = pt.image_to_string(img,lang='chi_sim')
-# print(text)
+# 从PyObjC库的AppKit模块引用NSPasteboard主类，和PNG、TIFF的格式类
+from AppKit import NSPasteboard, NSPasteboardTypePNG, NSPasteboardTypeTIFF, NSPasteboardTypeString
+
+
+def excute_ocr(filepath):
+    # url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
+    # img = Image.open(requests.get(url, stream=True).raw)
+    img = Image.open(filepath)
+    text = pt.image_to_string(img)
+    # text = pt.image_to_string(img, lang='chi_sim')    #中文
+    pyperclip.copy(text)
+    return text
+
+
+def get_paste_img_file(filepath):
+    """
+    将剪切板数据保存到本地文件并返回文件路径
+    """
+    pb = NSPasteboard.generalPasteboard()  # 获取当前系统剪切板数据
+    data_type = pb.types()  # 获取剪切板数据的格式类型
+
+    # 根据剪切板数据类型进行处理
+    if NSPasteboardTypePNG in data_type:          # PNG处理
+        data = pb.dataForType_(NSPasteboardTypePNG)
+        # print('png: '+str(type(data)))
+        # filename = 'HELLO_PNG.png'
+        # filepath = 'tmp/%s' % filename            # 保存文件的路径
+        ret = data.writeToFile_atomically_(filepath, False)    # 将剪切板数据保存为文件
+        if ret:   # 判断文件写入是否成功
+            return filepath
+    elif NSPasteboardTypeTIFF in data_type:         #TIFF处理： 一般剪切板里都是这种
+        # tiff
+        data = pb.dataForType_(NSPasteboardTypeTIFF)
+        # print('tiff: '+str(type(data)))
+        filename = 'HELLO_TIFF.tiff'
+        filepath = '/tmp/%s' % filename
+        ret = data.writeToFile_atomically_(filepath, False)
+        if ret:
+            return filepath
+    elif NSPasteboardTypeString in data_type:
+        # string todo, recognise url of png & jpg
+        pass
+
+def clipboard_image_text_clipboard():
+    filepath = '/Users/sourire/PycharmProjects/mutils/images/ocr_test.png'
+    get_paste_img_file(filepath)
+    excute_ocr(filepath)
+
+
+if __name__ == '__main__':
+    clipboard_image_text_clipboard()
