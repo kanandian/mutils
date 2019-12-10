@@ -14,11 +14,9 @@ def write_to_file(text, filepath):
 def excute_ocr(filepath):
     # url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
     # img = Image.open(requests.get(url, stream=True).raw)
-    write_to_file('123', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
     img = Image.open(filepath)
-    write_to_file('456', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
     text = pt.image_to_string(img)
-    write_to_file('789', '/Users/sourire/PycharmProjects/mutils/tmp/test.txt')
+    # write_to_file(text, '/Users/macpro/PycharmProjects/mutils/tmp/test.txt')
     # text = pt.image_to_string(img, lang='chi_sim')    #中文
     pyperclip.copy(text)
 
@@ -53,7 +51,7 @@ def get_paste_img_file(filepath):
         pass
 
 def clipboard_image_text_clipboard():
-    filepath = '/Users/sourire/PycharmProjects/mutils/images/ocr_test.png'
+    filepath = '/Users/macpro/PycharmProjects/mutils/images/ocr_test.png'
     get_paste_img_file(filepath)
     excute_ocr(filepath)
 
@@ -68,4 +66,5 @@ def init_hot_key():
 
 
 # if __name__ == '__main__':
-init_hot_key()
+# init_hot_key()
+clipboard_image_text_clipboard()
