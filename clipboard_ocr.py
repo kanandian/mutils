@@ -18,7 +18,7 @@ def excute_ocr(filepath):
     # text = pt.image_to_string(img)
     # write_to_file(text, '/Users/macpro/PycharmProjects/mutils/tmp/test.txt')
     text = pt.image_to_string(img, lang='chi_sim+eng')    #中文
-    pyperclip.copy(text)
+    pyperclip.copy(text.replace(" ", ""))
 
 
 def get_paste_img_file(filepath):
