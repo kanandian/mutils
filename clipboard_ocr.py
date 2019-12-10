@@ -15,9 +15,9 @@ def excute_ocr(filepath):
     # url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
     # img = Image.open(requests.get(url, stream=True).raw)
     img = Image.open(filepath)
-    text = pt.image_to_string(img)
+    # text = pt.image_to_string(img)
     # write_to_file(text, '/Users/macpro/PycharmProjects/mutils/tmp/test.txt')
-    # text = pt.image_to_string(img, lang='chi_sim')    #中文
+    text = pt.image_to_string(img, lang='chi_sim+eng')    #中文
     pyperclip.copy(text)
 
 
