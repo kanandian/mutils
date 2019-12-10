@@ -11,6 +11,28 @@ def write_to_file(text, filepath):
     with open(filepath, 'w') as file:
         file.write(text)
 
+
+def isChinese(letter):
+    if '\u4e00' <= letter <= '\u9fa5':
+        return True
+    return False
+
+
+def trimChinese(text):
+    text = list(text)
+    removeNums = []
+    for i in range(len(text)-1):
+        if i == 0:
+            continue
+        if text[i] == ' ' and isChinese(text[i-1]) and isChinese(text[i+1]):
+            removeNums.append(i)
+    for i in reversed(removeNums):
+        del text[i]
+    text = ''.join(text).strip()
+
+    return text
+
+
 def excute_ocr(filepath):
     # url = "https://china-testing.github.io/images/python_lib_ocr.PNG"
     # img = Image.open(requests.get(url, stream=True).raw)
@@ -18,7 +40,8 @@ def excute_ocr(filepath):
     # text = pt.image_to_string(img)
     # write_to_file(text, '/Users/macpro/PycharmProjects/mutils/tmp/test.txt')
     text = pt.image_to_string(img, lang='chi_sim+eng')    #中文
-    pyperclip.copy(text.replace(" ", ""))
+    text = trimChinese(text)
+    pyperclip.copy(text)
 
 
 def get_paste_img_file(filepath):
