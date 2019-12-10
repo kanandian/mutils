@@ -36,7 +36,7 @@ def get_paste_img_file(filepath):
         # filepath = 'tmp/%s' % filename            # 保存文件的路径
         ret = data.writeToFile_atomically_(filepath, False)    # 将剪切板数据保存为文件
         if ret:   # 判断文件写入是否成功
-            return filepath
+            return data
     elif NSPasteboardTypeTIFF in data_type:         #TIFF处理： 一般剪切板里都是这种
         # tiff
         data = pb.dataForType_(NSPasteboardTypeTIFF)
@@ -45,14 +45,15 @@ def get_paste_img_file(filepath):
         filepath = '/tmp/%s' % filename
         ret = data.writeToFile_atomically_(filepath, False)
         if ret:
-            return filepath
+            return data
     elif NSPasteboardTypeString in data_type:
         # string todo, recognise url of png & jpg
         pass
 
 def clipboard_image_text_clipboard():
     filepath = '/Users/macpro/PycharmProjects/mutils/images/ocr_test.png'
-    get_paste_img_file(filepath)
+    data = get_paste_img_file(filepath)
+    print(str(type(data)))
     excute_ocr(filepath)
 
 def test():
