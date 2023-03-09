@@ -1,4 +1,4 @@
-s = '我 很 帅 pip install laozi   '
+# s = '我 很 帅 pip install laozi   '
 
 
 def isChinese(letter):
@@ -21,4 +21,7 @@ def trimChinese(text):
 
     return text
 
-print(trimChinese(s))
+# print(trimChinese(s))
+astr = '佛奥私房话'
+substr = '佛奥'
+print(astr[len(substr):])
